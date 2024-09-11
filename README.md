@@ -32,7 +32,4 @@ Where:
 - **r** = Per payment schedule interest rate, calculated by dividing the annual interest rate by the number of payments per year
 - **n** = Total number of payments over the amortization period
 
-## Mortgage Default Insurance
-
-Mortgage default insurance, commonly referred to as CMHC insurance, protects the lender if the borrower defaults on the mortgage. It is required for all mortgages with down payments of less than 20% and is calculated as a percentage applied to the mortgage amount.
 
