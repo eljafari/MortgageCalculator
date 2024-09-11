@@ -36,21 +36,3 @@ Where:
 
 Mortgage default insurance, commonly referred to as CMHC insurance, protects the lender if the borrower defaults on the mortgage. It is required for all mortgages with down payments of less than 20% and is calculated as a percentage applied to the mortgage amount.
 
-### Mortgage Default Insurance Rates (CMHC Insurance Rates)
-
-| Loan-to-Value | Premium on Total Loan | 
-|---------------|-----------------------|
-| Up to 65%     | 0.60%                 | 
-| Up to 75%     | 1.70%                 | 
-| Up to 80%     | 2.40%                 | 
-| Up to 85%     | 2.80%                 | 
-| Up to 90%     | 3.10%                 |
-| Up to 95%     | 4.00%                 | 
-
-## Error Handling
-
-You will need to check for:
-- Invalid or missing inputs.
-- Inadequate down payment based on minimum percentage requirements.
-- Invalid amortization periods outside the 5-year increments.
-- Unsupported payment schedule types.
