@@ -1,7 +1,5 @@
-import express from 'express';
-
-import post_calculateMortgage from './controler/mortgageController.js';
-
+const express = require('express');
+const post_calculateMortgage = require('./controler/mortgageController')
 
 const app = express();
 const port = 3000;

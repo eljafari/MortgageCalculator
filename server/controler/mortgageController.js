@@ -1,6 +1,5 @@
-import {calculateMortgage} from "../models/mortgageModel.js";
-
-export default function post_calculateMortgage(req,res){
+const calculateMortgage= require('../models/mortgageModel.js')
+function post_calculateMortgage(req,res){
     try {
 
         //Todo: validate request
@@ -8,12 +7,12 @@ export default function post_calculateMortgage(req,res){
         var inputParams = {
             propertyPrice: req.body.property_price,
             downPaymentPercent: req.body.down_payment_percent,
-            interestRate: req.body.interest_rate,
+            annualInterestRate: req.body.annual_interest_rate,
             amortizationYears: req.body.amortization_years,
-            paySchadule: req.body.pay_schadule
+            paySchedule: req.body.pay_schedule
         }
 
-        const result= calculateMortgage(inputParams);
+        let result= calculateMortgage(inputParams);
         console.log(result);
 
         if(!result.success){
@@ -38,3 +37,4 @@ export default function post_calculateMortgage(req,res){
        res.json(req.body).status(500).send();
     }
 }
+module.exports = post_calculateMortgage;

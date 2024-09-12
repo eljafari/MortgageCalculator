@@ -1,10 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "type": "module",
   "main": "index.js",
+  "jest": {
+    "verbose": true
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon"
   },
   "author": "Elham",
