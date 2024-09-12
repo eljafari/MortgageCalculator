@@ -138,7 +138,7 @@ describe('calculateMortgage', () => {
 });
 
 describe('Calculation Logic', () => {
-    it('returns success with accurate paymentPerSchedule and related data when input is as expected', () => {
+    it('returns success with bi-weekly payment and related data when input is as expected', () => {
         const input = {
             propertyPrice: 900000,
             downPaymentPercent: 7.2,
@@ -153,6 +153,44 @@ describe('Calculation Logic', () => {
         expect(result.data.paymentPerSchedule).toBeCloseTo(2055);
         expect(result.data.insuranceAmount).toBeCloseTo(33408);
         expect(result.data.totalMortgage).toBeCloseTo(868608);
+        expect(result.data.currency).toEqual("CAD");
+        expect(result.data.mortgageParameters).toEqual(input);
+    });
+
+    it('returns success with monthly payment and related data when input is as expected', () => {
+        const input = {
+            propertyPrice: 900000,
+            downPaymentPercent: 15,
+            annualInterestRate: 4.1,
+            amortizationYears: 25,
+            paySchedule: "monthly"
+        };
+
+        const result = calculateMortgage(input);
+
+        expect(result.success).toBe(true);
+        expect(result.data.paymentPerSchedule).toBeCloseTo(4080);
+        expect(result.data.insuranceAmount).toBeCloseTo(21420);
+        expect(result.data.totalMortgage).toBeCloseTo(786420);
+        expect(result.data.currency).toEqual("CAD");
+        expect(result.data.mortgageParameters).toEqual(input);
+    })
+
+    it('returns success with accelerated bi-weekly paymen, down payment more than %20 and related data when input is as expected', () => {
+        const input = {
+            propertyPrice: 900000,
+            downPaymentPercent: 20,
+            annualInterestRate: 4.1,
+            amortizationYears: 25,
+            paySchedule: "accelerated bi-weekly"
+        }
+
+        const result = calculateMortgage(input);
+
+        expect(result.success).toBe(true);
+        expect(result.data.paymentPerSchedule).toBeCloseTo(1772);
+        expect(result.data.insuranceAmount).toBeCloseTo(0);
+        expect(result.data.totalMortgage).toBeCloseTo(720000);
         expect(result.data.currency).toEqual("CAD");
         expect(result.data.mortgageParameters).toEqual(input);
     });
@@ -172,34 +210,3 @@ describe('Calculation Logic', () => {
         expect(result.errors.length).toBeGreaterThan(0);
     });
 });
-
-// describe('validateInput', () => {
-//     test('Should return an error when propertyPrice is less than or equal to 0', () => {
-//         const input = {
-//             propertyPrice: 0
-//         };
-//         const result = validateInput(input);
-//         expect(result).toEqual({
-//             success: false,
-//             errorCode: 101,
-//             message: "Property price should be greater than 0!"
-//         });
-//     });
-
-//     test('should return success when propertyPrice is greater than 0', () => {
-//         const input = {
-//             propertyPrice: 500000
-//         };
-//         const result = validateInput(input);
-//         expect(result).toEqual({
-//             success: true,
-//             data: {
-//                 mortgageParameters: input,
-//                 insuranceAmount: 0,
-//                 totalMortgage: 0,
-//                 paymentPerSchedule: 0,
-//                 currency: "CAD"
-//             }
-//         });
-//     });
-// });

@@ -4,7 +4,12 @@ const calculateMortgage = mortgageModel.calculateMortgage;
 function post_calculateMortgage(req, res) {
     try {
 
-        //Todo: validate request
+        if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+            var badRequest = {
+                message: "Request payload should not be empty!"
+            }
+            res.status(400).json(badRequest);
+        }
 
         var inputParams = {
             propertyPrice: req.body.property_price,
@@ -19,10 +24,10 @@ function post_calculateMortgage(req, res) {
 
         if (!result.success) {
             var errResponse = {
-                messge: "Mortgage calculation faild! for details see the list of errors",
+                message: "Mortgage calculation faild! for details see the list of errors",
                 errors: result.errors
             }
-            res.json(errResponse).status(400).send();
+            res.status(400).json(errResponse);
         }
 
         var response = {
@@ -32,11 +37,13 @@ function post_calculateMortgage(req, res) {
             "payment_per_schedule": result.data.paymentPerSchedule,
             "currency": "CAD"
         }
-        res.json(response).status(200).send();
+        res.status(200).json(response);
 
     } catch (err) {
         console.error(err);
-        res.json(req.body).status(500).send();
+        res.json({
+            message: "Internal Server Error!"
+        }).status(500).send();
     }
 }
 module.exports = post_calculateMortgage;
