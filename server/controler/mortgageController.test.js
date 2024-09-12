@@ -38,7 +38,7 @@ describe('post_calculateMortgage', () => {
                 },
                 {
                     errorCode: 104,
-                    message: "Amortization years should be equal or greater than 1 or less than or equal to 30."
+                    message: "Amortization years should be one of 5, 10, 15, 20, 25, or 30."
                 },
                 {
                     errorCode: 105,
@@ -48,7 +48,7 @@ describe('post_calculateMortgage', () => {
         });
     });
 
-    it('Returns success response when all inputs are valid', async () => {
+    it('returns success response when all inputs are valid', async () => {
         response = await request(app)
             .post('/api/mortgage/calculate')
             .send({
@@ -70,7 +70,7 @@ describe('post_calculateMortgage', () => {
             },
             insurance_amount: 23715,
             total_mortgage: 788715,
-            payment_per_schedule: 1882,
+            payment_per_schedule: 1883,
             currency: "CAD"
         });
     });

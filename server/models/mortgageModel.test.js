@@ -56,7 +56,7 @@ describe('calculateMortgage', () => {
                     },
                     {
                         "errorCode": 104,
-                        "message": "Amortization years should be equal or greater than 1 or less than or equal to 30."
+                        "message": "Amortization years should be one of 5, 10, 15, 20, 25, or 30."
                     },
                     {
                         "errorCode": 105,
@@ -112,13 +112,13 @@ describe('calculateMortgage', () => {
             });
         });
 
-        it('returns error response when amortizationYears is less than 1 year', () => {
+        it('returns error response when amortizationYears is not one of 5, 10, 15, 20, 25, 30.', () => {
             //Arrange
             const input = {
                 propertyPrice: 500000,
                 downPaymentPercent: 5,
                 annualInterestRate: 4.1,
-                amortizationYears: 0,
+                amortizationYears: 12,
                 paySchedule: "bi-weekly"
             }
 
@@ -130,7 +130,7 @@ describe('calculateMortgage', () => {
                 success: false,
                 "errors": [{
                     "errorCode": 104,
-                    "message": "Amortization years should be equal or greater than 1 or less than or equal to 30."
+                    "message": "Amortization years should be one of 5, 10, 15, 20, 25, or 30."
                 }]
             });
         });
@@ -150,7 +150,7 @@ describe('Calculation Logic', () => {
         const result = calculateMortgage(input);
 
         expect(result.success).toBe(true);
-        expect(result.data.paymentPerSchedule).toBeCloseTo(2055);
+        expect(result.data.paymentPerSchedule).toBeCloseTo(2056);
         expect(result.data.insuranceAmount).toBeCloseTo(33408);
         expect(result.data.totalMortgage).toBeCloseTo(868608);
         expect(result.data.currency).toEqual("CAD");
@@ -188,7 +188,7 @@ describe('Calculation Logic', () => {
         const result = calculateMortgage(input);
 
         expect(result.success).toBe(true);
-        expect(result.data.paymentPerSchedule).toBeCloseTo(1772);
+        expect(result.data.paymentPerSchedule).toBeCloseTo(1920);
         expect(result.data.insuranceAmount).toBeCloseTo(0);
         expect(result.data.totalMortgage).toBeCloseTo(720000);
         expect(result.data.currency).toEqual("CAD");
