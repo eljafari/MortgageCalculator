@@ -1,5 +1,7 @@
-const calculateMortgage= require('../models/mortgageModel.js')
-function post_calculateMortgage(req,res){
+const mortgageModel = require('../models/mortgageModel.js')
+const calculateMortgage = mortgageModel.calculateMortgage;
+
+function post_calculateMortgage(req, res) {
     try {
 
         //Todo: validate request
@@ -12,18 +14,18 @@ function post_calculateMortgage(req,res){
             paySchedule: req.body.pay_schedule
         }
 
-        let result= calculateMortgage(inputParams);
+        let result = calculateMortgage(inputParams);
         console.log(result);
 
-        if(!result.success){
+        if (!result.success) {
             var errResponse = {
-                code: result.errorCode,
-                messge: result.message
+                messge: "Mortgage calculation faild! for details see the list of errors",
+                errors: result.errors
             }
             res.json(errResponse).status(400).send();
         }
 
-        var response ={
+        var response = {
             "mortgage_parameters": req.body,
             "insurance_amount": result.data.insuranceAmount,
             "total_mortgage": result.data.totalMortgage,
@@ -33,8 +35,8 @@ function post_calculateMortgage(req,res){
         res.json(response).status(200).send();
 
     } catch (err) {
-       console.error(err);
-       res.json(req.body).status(500).send();
+        console.error(err);
+        res.json(req.body).status(500).send();
     }
 }
 module.exports = post_calculateMortgage;
