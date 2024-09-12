@@ -14,7 +14,6 @@ const calculateMortgage = (mortgageParameters) => {
     }
 
     let paymentPerYear = getPaymentPerYear(paySchedule);
-    console.log(paymentPerYear);
 
     let mortgageInsurancePercent = getMortgageInsurancePercent(downPaymentPercent);
 
@@ -22,7 +21,7 @@ const calculateMortgage = (mortgageParameters) => {
     let principal = propertyPrice - downPaymentAmount;
     let interestRatePerPayment = (annualInterestRate / 100) / paymentPerYear;
     let totalPayment = amortizationYears * paymentPerYear;
-    let insuranceAmount = principal * mortgageInsurancePercent / 100;
+    let insuranceAmount = Math.round(principal * mortgageInsurancePercent / 100);
     let totalMortgage = principal + insuranceAmount;
 
     let paymentPerSchedule = Math.round(principal * interestRatePerPayment * Math.pow(1 + interestRatePerPayment, totalPayment) / (Math.pow(1 + interestRatePerPayment, totalPayment) - 1));
@@ -101,7 +100,7 @@ const validateInput = (mortgageParameters) => {
         });
     }
 
-    if (paySchedule !== 'bi-weekly' && paySchedule !== 'accelerated bi-weekly' && paySchedule !== 'monthly)') {
+    if (paySchedule !== 'bi-weekly' && paySchedule !== 'accelerated bi-weekly' && paySchedule !== 'monthly') {
         errors.push({
             // success: false,
             errorCode: 105,
