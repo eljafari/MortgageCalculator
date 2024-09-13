@@ -3,7 +3,6 @@ const calculateMortgage = mortgageModel.calculateMortgage;
 
 function post_calculateMortgage(req, res) {
     try {
-
         if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
             var badRequest = {
                 message: "Request payload should not be empty!"
@@ -20,7 +19,6 @@ function post_calculateMortgage(req, res) {
         }
 
         let result = calculateMortgage(inputParams);
-        console.log(result);
 
         if (!result.success) {
             var errResponse = {
@@ -35,6 +33,7 @@ function post_calculateMortgage(req, res) {
             "insurance_amount": result.data.insuranceAmount,
             "total_mortgage": result.data.totalMortgage,
             "payment_per_schedule": result.data.paymentPerSchedule,
+            "down_payment_amount":result.data.downPaymentAmount,
             "currency": "CAD"
         }
         res.status(200).json(response);

@@ -2,13 +2,50 @@ const post_calculateMortgage = require('./mortgageController.js');
 const request = require('supertest');
 const express = require('express');
 
-const app = express();
-app.use(express.json());
-app.post('/api/mortgage/calculate', post_calculateMortgage);
 
 describe('post_calculateMortgage', () => {
+    let app;
+    let server;
+
+    beforeAll(() => {
+        app = express();
+        app.use(express.json());
+        app.post('/api/mortgage/calculate', post_calculateMortgage);
+        server = app.listen(3003);
+    });
+
+    it('returns success response when all inputs are valid', async () => {
+        const mortgageParameters = {
+            property_price: 850000,
+            down_payment_percent: 10,
+            annual_interest_rate: 4.1,
+            amortization_years: 25,
+            pay_schedule: "bi-weekly"
+        };
+
+        response = await request("http://localhost:3003")
+            .post('/api/mortgage/calculate')
+            .send(mortgageParameters);
+
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+            mortgage_parameters: {
+                property_price: 850000,
+                down_payment_percent: 10,
+                annual_interest_rate: 4.1,
+                amortization_years: 25,
+                pay_schedule: "bi-weekly"
+            },
+            insurance_amount: 23715,
+            total_mortgage: 788715,
+            payment_per_schedule: 1883,
+            down_payment_amount: 85000,
+            currency: "CAD"
+        });
+    });
+
     it('returns bad request when requset body is empty', async () => {
-        const response = await request(app)
+        const response = await request("http://localhost:3003")
             .post('/api/mortgage/calculate')
             .send({});
 
@@ -19,7 +56,7 @@ describe('post_calculateMortgage', () => {
     });
 
     it('returns failiour message when inputes are not valid and response is not success.', async () => {
-        const response = await request(app)
+        const response = await request("http://localhost:3003")
             .post('/api/mortgage/calculate')
             .send({
                 property_price: 500000,
@@ -48,30 +85,11 @@ describe('post_calculateMortgage', () => {
         });
     });
 
-    it('returns success response when all inputs are valid', async () => {
-        response = await request(app)
-            .post('/api/mortgage/calculate')
-            .send({
-                property_price: 850000,
-                down_payment_percent: 10,
-                annual_interest_rate: 4.1,
-                amortization_years: 25,
-                pay_schedule: "bi-weekly"
-            });
-
-        expect(response.status).toBe(200);
-        expect(response.body).toEqual({
-            mortgage_parameters: {
-                property_price: 850000,
-                down_payment_percent: 10,
-                annual_interest_rate: 4.1,
-                amortization_years: 25,
-                pay_schedule: "bi-weekly"
-            },
-            insurance_amount: 23715,
-            total_mortgage: 788715,
-            payment_per_schedule: 1883,
-            currency: "CAD"
-        });
+    afterAll((done) => {
+        if (server) {
+            server.close(done);
+        } else {
+            done();
+        }
     });
 });
