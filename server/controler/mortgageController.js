@@ -1,9 +1,9 @@
 const mortgageModel = require('../models/mortgageModel.js')
 const calculateMortgage = mortgageModel.calculateMortgage;
 
-function post_calculateMortgage(req, res) {
+const post_calculateMortgage = (req, res) => {
     try {
-        if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+        if (req.body === "" || (req.body.constructor === Object && Object.keys(req.body).length === 0)) {
             var badRequest = {
                 message: "Request payload should not be empty!"
             }
@@ -39,10 +39,10 @@ function post_calculateMortgage(req, res) {
         res.status(200).json(response);
 
     } catch (err) {
-        console.error(err);
-        res.json({
+        console.log("Unhandled Exception Happened: "+err);
+        res.status(500).json({
             message: "Internal Server Error!"
-        }).status(500).send();
+        });
     }
 }
 module.exports = post_calculateMortgage;

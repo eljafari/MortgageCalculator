@@ -72,7 +72,7 @@ const MortgageCalculator = () => {
                 />
             </div>
             <div className="form-group">
-                <label className="form-label">Down Payment:  <button onClick={handleDownPayInfo}>?</button>
+                <label className="form-label">Down Payment:  <button className='infoBtn' onClick={handleDownPayInfo}>?</button>
                 {infoVisible && <span className= 'info'>{infoText}</span>}
                 </label>
                 <div className='downpayment'>

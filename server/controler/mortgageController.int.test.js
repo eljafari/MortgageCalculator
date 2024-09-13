@@ -44,7 +44,7 @@ describe('post_calculateMortgage', () => {
         });
     });
 
-    it('returns bad request when requset body is empty', async () => {
+    it('returns 400 bad request when requset body is empty', async () => {
         const response = await request("http://localhost:3003")
             .post('/api/mortgage/calculate')
             .send({});
