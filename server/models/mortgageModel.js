@@ -14,7 +14,7 @@ const calculateMortgage = (mortgageParameters) => {
 
     let mortgageInsurancePercent = getMortgageInsurancePercent(downPaymentPercent);
 
-    let downPaymentAmount = propertyPrice * (downPaymentPercent / 100);
+    let downPaymentAmount = Math.round(propertyPrice * (downPaymentPercent / 100));
     let principal = propertyPrice - downPaymentAmount;
 
     let monthlyInterestRatePerPayment = ((annualInterestRate / 100) / 12);
@@ -34,6 +34,7 @@ const calculateMortgage = (mortgageParameters) => {
             insuranceAmount: insuranceAmount,
             totalMortgage: totalMortgage,
             paymentPerSchedule: paymentPerSchedule,
+            downPaymentAmount:downPaymentAmount,
             currency: "CAD"
         }
     }
