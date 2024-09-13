@@ -1,6 +1,51 @@
 # Mortgage Calculator API
 
-## Inputs
+## 📝 Introduction
+This mortgage calculator project calculates key mortgage details based on the asking price, down payment percentage, interest rate, amortization period, and payment schedule. It provides the insurance amount, total mortgage, down payment amount, and payment per schedule.
+
+## 🛠 Technologies Used
+- **Backend:** Node.js, Express.js
+- **Frontend:** React.js
+- **Testing Frameworks:** Sinon, Jest
+
+## ⚙️ Installation
+
+### Prerequisites
+Make sure the following tools are installed on your machine:
+- [Node.js](https://nodejs.org/en/download/) 
+- [npm](https://www.npmjs.com/get-npm) or [Yarn](https://yarnpkg.com/)
+- [Git](https://git-scm.com/)
+
+### Clone the Repository
+git clone https://github.com/eljafari/MortgageCalculator.git
+
+Navigate into the project directory:
+``cd MortgageCalculator``
+
+🚀 Running the Backend
+
+cd server
+``npm install``
+``then start the server``
+``npm start``
+
+🌐 Running the Frontend
+
+``cd client``
+``npm install``
+``npm start``
+
+🧪 Running Tests
+
+Run all tests
+``npm test``
+Run unit tests only
+``npm run testUnit``
+Run integration test
+``npm run testInt``
+
+# Project Requirements
+## Inputs 
 - **Property Price**
 - **Down Payment**  
   If the purchase price is:
