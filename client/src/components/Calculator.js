@@ -14,11 +14,12 @@ const MortgageCalculator = () => {
     const [results, setResults] = useState({
         insuranceAmount: '',
         totalMortgage: '',
-        
         paymentPerSchedule: '',
         downPaymentAmount: '',
         currency: 'CAD'
     });
+
+    const [errors, setErrors] = useState('');
 
     useEffect(() => {
         if (propertyPrice && downPaymentPercent && annualInterestRate && amortizationYears) {
@@ -30,7 +31,6 @@ const MortgageCalculator = () => {
                 pay_schedule: paySchedule
             })
             .then(response => {
-                console.log(response);
                 setResults({
                     insuranceAmount: response.data.insurance_amount,
                     totalMortgage: response.data.total_mortgage,
@@ -38,19 +38,32 @@ const MortgageCalculator = () => {
                     downPaymentAmount: response.data.down_payment_amount,
                     currency: response.data.currency
                 });
-                // console.log(results);
+                setErrors(''); 
+                // console.log(response);
             })
             .catch(error => {
+                let errorMessages = [];
+
                 if (error.response) {
                     // Server responded with a status other than 200 range
+                    
                     console.error('Error Response:', error.response.data);
+                    const errorData = error.response.data;
+                    if (Array.isArray(errorData.errors)) {
+                        errorMessages = errorData.errors.map(err => err.message);
+                    } else {
+                        errorMessages.push(errorData.message || 'An error occurred');
+                    }
                 } else if (error.request) {
                     // No response received
                     console.error('No response:', error.request);
+                    errorMessages.push('No response from server');
                 } else {
                     // Something went wrong in setting up the request
                     console.error('Error:', error.message);
+                    errorMessages.push(error.message);
                 }
+                setErrors(errorMessages);
             });
         }
     }, [propertyPrice, downPaymentPercent, annualInterestRate, amortizationYears, paySchedule]);
@@ -123,6 +136,13 @@ const MortgageCalculator = () => {
                     <option value="accelerated bi-weekly">Accelerated Bi-Weekly</option>
                 </select>
             </div>
+            {errors.length > 0 && (
+                <div className="error-messages">
+                    {errors.map((err, index) => (
+                        <div key={index} className="error-message">{err}</div>
+                    ))}
+                </div>
+            )}
             <div className="results-container">
                 <h3 className="results-heading">Results:</h3>
                 <div className="result-box">
