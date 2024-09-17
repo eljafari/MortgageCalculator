@@ -47,7 +47,7 @@ describe('calculateMortgage', () => {
                         "message": "Property price should be greater than 0."
                     },
                     {
-                        "errorCode": 103,
+                        "errorCode": 102,
                         "message": "Enter a down payment percent less than 100%"
                     },
                     {
@@ -135,78 +135,78 @@ describe('calculateMortgage', () => {
             });
         });
     });
-});
 
-describe('Calculation Logic', () => {
-    it('returns success with bi-weekly payment and related data when input is as expected', () => {
-        const input = {
-            propertyPrice: 900000,
-            downPaymentPercent: 7.2,
-            annualInterestRate: 4.1,
-            amortizationYears: 25,
-            paySchedule: "bi-weekly"
-        }
+    describe('Calculation Logic', () => {
+        it('returns success with bi-weekly payment and related data when input is as expected', () => {
+            const input = {
+                propertyPrice: 900000,
+                downPaymentPercent: 7.2,
+                annualInterestRate: 4.1,
+                amortizationYears: 25,
+                paySchedule: "bi-weekly"
+            }
 
-        const result = calculateMortgage(input);
+            const result = calculateMortgage(input);
 
-        expect(result.success).toBe(true);
-        expect(result.data.paymentPerSchedule).toBeCloseTo(2056);
-        expect(result.data.insuranceAmount).toBeCloseTo(33408);
-        expect(result.data.totalMortgage).toBeCloseTo(868608);
-        expect(result.data.currency).toEqual("CAD");
-        expect(result.data.mortgageParameters).toEqual(input);
-    });
+            expect(result.success).toBe(true);
+            expect(result.data.paymentPerSchedule).toBeCloseTo(2056);
+            expect(result.data.insuranceAmount).toBeCloseTo(33408);
+            expect(result.data.totalMortgage).toBeCloseTo(868608);
+            expect(result.data.currency).toEqual("CAD");
+            expect(result.data.mortgageParameters).toEqual(input);
+        });
 
-    it('returns success with monthly payment and related data when input is as expected', () => {
-        const input = {
-            propertyPrice: 900000,
-            downPaymentPercent: 15,
-            annualInterestRate: 4.1,
-            amortizationYears: 25,
-            paySchedule: "monthly"
-        };
+        it('returns success with monthly payment and related data when input is as expected', () => {
+            const input = {
+                propertyPrice: 900000,
+                downPaymentPercent: 15,
+                annualInterestRate: 4.1,
+                amortizationYears: 25,
+                paySchedule: "monthly"
+            };
 
-        const result = calculateMortgage(input);
+            const result = calculateMortgage(input);
 
-        expect(result.success).toBe(true);
-        expect(result.data.paymentPerSchedule).toBeCloseTo(4080);
-        expect(result.data.insuranceAmount).toBeCloseTo(21420);
-        expect(result.data.totalMortgage).toBeCloseTo(786420);
-        expect(result.data.currency).toEqual("CAD");
-        expect(result.data.mortgageParameters).toEqual(input);
-    })
+            expect(result.success).toBe(true);
+            expect(result.data.paymentPerSchedule).toBeCloseTo(4080);
+            expect(result.data.insuranceAmount).toBeCloseTo(21420);
+            expect(result.data.totalMortgage).toBeCloseTo(786420);
+            expect(result.data.currency).toEqual("CAD");
+            expect(result.data.mortgageParameters).toEqual(input);
+        })
 
-    it('returns success with accelerated bi-weekly paymen, down payment more than %20 and related data when input is as expected', () => {
-        const input = {
-            propertyPrice: 900000,
-            downPaymentPercent: 20,
-            annualInterestRate: 4.1,
-            amortizationYears: 25,
-            paySchedule: "accelerated bi-weekly"
-        }
+        it('returns success with accelerated bi-weekly paymen, down payment more than %20 and related data when input is as expected', () => {
+            const input = {
+                propertyPrice: 900000,
+                downPaymentPercent: 20,
+                annualInterestRate: 4.1,
+                amortizationYears: 25,
+                paySchedule: "accelerated bi-weekly"
+            }
 
-        const result = calculateMortgage(input);
+            const result = calculateMortgage(input);
 
-        expect(result.success).toBe(true);
-        expect(result.data.paymentPerSchedule).toBeCloseTo(1920);
-        expect(result.data.insuranceAmount).toBeCloseTo(0);
-        expect(result.data.totalMortgage).toBeCloseTo(720000);
-        expect(result.data.currency).toEqual("CAD");
-        expect(result.data.mortgageParameters).toEqual(input);
-    });
+            expect(result.success).toBe(true);
+            expect(result.data.paymentPerSchedule).toBeCloseTo(1920);
+            expect(result.data.insuranceAmount).toBeCloseTo(0);
+            expect(result.data.totalMortgage).toBeCloseTo(720000);
+            expect(result.data.currency).toEqual("CAD");
+            expect(result.data.mortgageParameters).toEqual(input);
+        });
 
-    it('returns failure response when input has invalid value', () => {
-        const input = {
-            propertyPrice: 900000,
-            downPaymentPercent: 3.1, //Invalid 
-            annualInterestRate: 4.1,
-            amortizationYears: 25,
-            paySchedule: "bi-weekly"
-        }
+        it('returns failure response when input has invalid value', () => {
+            const input = {
+                propertyPrice: 900000,
+                downPaymentPercent: 3.1, //Invalid 
+                annualInterestRate: 4.1,
+                amortizationYears: 25,
+                paySchedule: "bi-weekly"
+            }
 
-        const result = calculateMortgage(input);
+            const result = calculateMortgage(input);
 
-        expect(result.success).toBe(false);
-        expect(result.errors.length).toBeGreaterThan(0);
+            expect(result.success).toBe(false);
+            expect(result.errors.length).toBeGreaterThan(0);
+        });
     });
 });

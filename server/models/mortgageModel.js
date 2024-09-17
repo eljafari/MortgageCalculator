@@ -23,9 +23,9 @@ const calculateMortgage = (mortgageParameters) => {
     let insuranceAmount = Math.round(principal * mortgageInsurancePercent / 100);
     let totalMortgage = principal + insuranceAmount;
 
-    let monthlyPaymentPerSchedule = Math.round(principal * monthlyInterestRatePerPayment * Math.pow(1 + monthlyInterestRatePerPayment, monthlyTotalPayment) / (Math.pow(1 + monthlyInterestRatePerPayment, monthlyTotalPayment) - 1));
+    let monthlyPayment = Math.round(principal * monthlyInterestRatePerPayment * Math.pow(1 + monthlyInterestRatePerPayment, monthlyTotalPayment) / (Math.pow(1 + monthlyInterestRatePerPayment, monthlyTotalPayment) - 1));
 
-    let paymentPerSchedule = getPaymentPerSchedule(paySchedule, monthlyPaymentPerSchedule);
+    let paymentPerSchedule = getPaymentPerSchedule(paySchedule, monthlyPayment);
 
     return {
         success: true,
@@ -60,7 +60,7 @@ const validateInput = (mortgageParameters) => {
 
     if (downPaymentPercent > 100) {
         errors.push({
-            errorCode: 103,
+            errorCode: 102,
             message: `Enter a down payment percent less than 100%`
         });
     } else {
@@ -116,14 +116,14 @@ const validateInput = (mortgageParameters) => {
     }
 }
 
-const getPaymentPerSchedule = (paySchedule, monthlyPaymentPerSchedule) => {
+const getPaymentPerSchedule = (paySchedule, monthlyPayment) => {
     switch (paySchedule) {
         case 'monthly':
-            return monthlyPaymentPerSchedule;
+            return monthlyPayment;
         case 'bi-weekly':
-            return Math.round(monthlyPaymentPerSchedule * 12 / 26);
+            return Math.round(monthlyPayment * 12 / 26);
         case 'accelerated bi-weekly':
-            return monthlyPaymentPerSchedule / 2;
+            return monthlyPayment / 2;
     }
 }
 
