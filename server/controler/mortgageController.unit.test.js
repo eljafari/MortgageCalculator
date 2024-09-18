@@ -45,7 +45,7 @@ describe('mortgageController - calculateMortgage', () => {
         sinon.stub(mortgageModel, 'calculateMortgage').resolves(expectedResult);
 
         //Act
-        post_calculateMortgage(req, res);
+        await post_calculateMortgage(req, res);
 
         //Assert    
         expect(res.status.calledWith(200)).toBe(true);
