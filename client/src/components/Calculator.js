@@ -49,19 +49,13 @@ const MortgageCalculator = () => {
                     
                     console.error('Error Response:', error.response.data);
                     const errorData = error.response.data;
-                    if (Array.isArray(errorData.errors)) {
-                        errorMessages = errorData.errors.map(err => err.message);
-                    } else {
-                        errorMessages.push(errorData.message || 'An error occurred');
-                    }
+                    errorMessages = errorData.errors.map(err => err.message);
                 } else if (error.request) {
                     // No response received
                     console.error('No response:', error.request);
-                    errorMessages.push('No response from server');
                 } else {
                     // Something went wrong in setting up the request
                     console.error('Error:', error.message);
-                    errorMessages.push(error.message);
                 }
                 setErrors(errorMessages);
             });
